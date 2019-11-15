@@ -59,15 +59,16 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 void input_init() {
     cin.tie(0); ios::sync_with_stdio(false);
 }
-
+template <typename T>
 class Erathostenes {
 public:
-    vector<ll> primes;
-    Erathostenes(ll n);
+    vector<T> primes;
+    Erathostenes(T n);
     ~Erathostenes();
 };
 
-Erathostenes::Erathostenes(ll n) {
+template<typename T>
+Erathostenes<T>::Erathostenes(T n) {
     vector<bool> prime_flags(n+10, true);
     prime_flags[0] = prime_flags[1] = false;
     for (int i = 2; i*i <= n; ++i) {
@@ -83,20 +84,21 @@ Erathostenes::Erathostenes(ll n) {
     }
 }
 
-Erathostenes::~Erathostenes() {}
+template <typename T>
+Erathostenes<T>::~Erathostenes() {}
 
-
-class Factoring: public Erathostenes {
+template <typename T>
+class Factoring: public Erathostenes<T> {
 public:
-    map<ll, int> factors;
-    Factoring(ll n):Erathostenes(n) {}
+    map<T, int> factors;
+    Factoring(T n) : Erathostenes<T>(n) {}
     ~Factoring();
-    void factoring(ll n);
+    void factoring(T n);
 };
 
-
-void Factoring::factoring(ll n) {
-    for (auto &&e: primes) {
+template <typename T>
+void Factoring<T>::factoring(T n) {
+    for (auto &&e: this->primes) {
         if (e > n) break;
         while(n%e == 0){
             factors[e]++;
@@ -107,4 +109,5 @@ void Factoring::factoring(ll n) {
     factors.erase(1);
 }
 
-Factoring::~Factoring() {}
+template<typename T>
+Factoring<T>::~Factoring() {}

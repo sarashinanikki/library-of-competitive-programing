@@ -19,3 +19,11 @@ U lcm(U a, U b) {
     U ans = a*b/gcd(a, b);
     return ans;
 }
+
+template<typename U>
+U lcm_multi(const vector<U> &A) {
+    if (n == 1) return A[0];
+    U ans = lcm_multi(A[0],A[1]);
+    for (int i = 2; i < n; ++i) ans = lcm_multi(ans,A[i]);
+    return ans;
+}
