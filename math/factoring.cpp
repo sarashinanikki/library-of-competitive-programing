@@ -59,22 +59,28 @@ template<class T> inline bool chmin(T& a, T b) { if (a > b) { a = b; return 1; }
 void input_init() {
     cin.tie(0); ios::sync_with_stdio(false);
 }
+
 class Erathostenes {
 public:
     vector<ll> primes;
+    vector<ll> mf;
     Erathostenes();
     ~Erathostenes();
 };
 
 Erathostenes::Erathostenes() {
-    ll n = sqrtl(11451419198);
+    ll n = 15001000;
     vector<bool> prime_flags(n+10, true);
+    mf.resize(n+10,-1);
     prime_flags[0] = prime_flags[1] = false;
-    for (int i = 2; i*i <= n; ++i) {
+    mf[0] = 0; mf[1] = 1;
+    for (int i = 2; i <= n; ++i) {
         if (prime_flags[i]) {
             primes.push_back(i);
-            for (int j = i; j <= n; j+=i) {
+            mf[i] = i;
+            for (int j = i*2; j < n; j+=i) {
                 prime_flags[j] = false;
+                if (mf[j] == -1) mf[j] = i;
             }
         }
     }
@@ -97,15 +103,15 @@ public:
 
 
 void Factoring::factoring(ll n) {
-    for (auto &&e: primes) {
-        if (e > n) break;
-        while(n%e == 0){
-            factors[e]++;
-            n /= e;
+    while (n!=1) {
+        int pr = mf[n];
+        int exp = 0;
+        while (mf[n]==pr) {
+            ++exp;
+            n/=pr;
         }
+        factors[pr] = exp;
     }
-    factors[n]++;
-    factors.erase(1);
 }
 
 void Factoring::factorial(ll n) {
@@ -115,3 +121,14 @@ void Factoring::factorial(ll n) {
 }
 
 Factoring::~Factoring() {}
+
+int main() {
+    ll n; cin>>n;
+    Factoring f;
+    f.factoring(n);
+    cout << n << ':';
+    for (auto &&e: f.factors) {
+        rep(i,e.second) cout << ' ' << e.first;
+    }
+    cout << endl;
+}

@@ -61,15 +61,17 @@ class Rolling_hash {
 private:
     vector<ul> hash, power;
     ul base = 1e9+7;
-    const ul mod = (1ul << 61)-1;
-    const ul mask30 = (1ul << 30)-1;
-    const ul mask31 = (1ul << 31)-1;
+    string s;
+    const ul mod = (1ull << 61)-1;
+    const ul mask30 = (1ull << 30)-1;
+    const ul mask31 = (1ull << 31)-1;
     const ul POSITIVISER = mod*3;
 public:
     Rolling_hash(const string &s);
     ul mul(ul a, ul b);
     ul calc_mod(ul x);
     ul get(int l, int r);
+    ul change(int i, char chg);
     ~Rolling_hash();
 };
 
@@ -91,9 +93,32 @@ ul Rolling_hash::calc_mod(ul x) {
     return x;
 };
 
+// 半開区間: [l, r)
+ul Rolling_hash::get(int l, int r) {
+    ul ret = calc_mod(hash[r]+POSITIVISER - mul(power[r-l],hash[l]));
+    return ret;
+};
+
+// 
+ul Rolling_hash::change(int idx, char chg) {
+    int sz = s.length();
+    char cur = s[idx];
+    int diff = chg-cur;
+    ul al_hash = hash[sz];
+    if (diff >= 0) {
+        ul d = (ul)diff;
+        al_hash = calc_mod(al_hash+(power[sz-idx-1]*d));
+    }
+    else {
+        ul d = (ul)abs(diff);
+        al_hash = calc_mod(al_hash-(power[sz-idx-1]*d));
+    }
+    return al_hash;
+};
 
 Rolling_hash::Rolling_hash(const string &s) {
     int n = (int)s.size();
+    this->s = s;
     hash.assign(n+1,0);
     power.assign(n+1,1);
     for (int i = 0; i < n; ++i) {
@@ -102,11 +127,6 @@ Rolling_hash::Rolling_hash(const string &s) {
     }
 };
 
-// 半開区間: [l, r)
-ul Rolling_hash::get(int l, int r) {
-    ul ret = calc_mod(hash[r]+POSITIVISER - mul(power[r-l],hash[l]));
-    return ret;
-}
 
 Rolling_hash::~Rolling_hash() {};
 
