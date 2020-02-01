@@ -117,7 +117,6 @@ void Median::add(ll x) {
     }
     else if ((int)former.size() == (int)latter.size() || (int)former.size() == (int)latter.size()+1) {}
     else {
-        assert(false);
         cout << "I don't consider this situation" << '\n';
         cout << "the size of former is " << former.size() << '\n';
         cout << "and the size of latter is " << latter.size() << '\n';
