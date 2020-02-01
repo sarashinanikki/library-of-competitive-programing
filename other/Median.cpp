@@ -64,13 +64,21 @@ private:
     priority_queue<ll> former;
     priority_queue<ll,vector<ll>,greater<ll>> latter;
 public:
+    ll former_sum = 0, latter_sum = 0;
     Median();
     void add(ll x);
     ll get();
+    P sizes();
     ~Median();
 };
 
 Median::Median() {
+}
+
+// pair(former, latter)
+P Median::sizes() {
+    P ret = P((ll)former.size(), (ll)latter.size());
+    return ret;
 }
 
 // add a number into data structure
@@ -78,30 +86,41 @@ void Median::add(ll x) {
     // どちらに入る？
     if (former.empty()) {
         former.push(x);
+        former_sum += x;
     }
     else {
         ll former_top = former.top();
-        if (former_top < x) latter.push(x);
-        else former.push(x);
+        if (former_top < x) {
+            latter.push(x);
+            latter_sum += x;
+        }
+        else {
+            former.push(x);
+            former_sum += x;
+        }
     }
 
     // 数を合わせる
     // when latter has one more element
     if ((int)latter.size() == (int)former.size()+1) {
         ll tmp = latter.top(); latter.pop();
+        latter_sum -= tmp;
         former.push(tmp);
+        former_sum += tmp;
     }
     // when former has two more elements
     else if ((int)(former.size()) == (int)latter.size()+2) {
         ll tmp = former.top(); former.pop();
+        former_sum -= tmp;
         latter.push(tmp);
+        latter_sum += tmp;
     }
     else if ((int)former.size() == (int)latter.size() || (int)former.size() == (int)latter.size()+1) {}
     else {
-        cout << "I don't believe this situation" << '\n';
+        assert(false);
+        cout << "I don't consider this situation" << '\n';
         cout << "the size of former is " << former.size() << '\n';
         cout << "and the size of latter is " << latter.size() << '\n';
-        exit(0);
     }
 }
 
@@ -112,6 +131,7 @@ ll Median::get() {
 
 Median::~Median() {
 }
+
 
 int main(int argc, char const *argv[]) {
     
