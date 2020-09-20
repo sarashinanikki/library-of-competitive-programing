@@ -88,9 +88,9 @@ class SegTree {
                 data = vector<T>(2*n-1, def);
         }
 
-        T query(T a, T b) {return _query(a,b,0,0,n);}
+        T query(int a, int b) {return _query(a,b,0,0,n);}
 
-        void change(T i, T x) {
+        void change(int i, T x) {
             i += n-1;
             data[i] = update(data[i],x);
             while (i>0) {
