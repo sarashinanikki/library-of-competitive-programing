@@ -73,8 +73,8 @@ class SegTree {
         if (a <= l && r <= b) return data[k]; // 区間が完全にかぶっていればdata[k]
         else {
             // 一部だけかぶる場合は左右の子に委託する
-            ll c1 = _query(a, b, 2*k+1, l, (l+r)/2);
-            ll c2 = _query(a, b, 2*k+2, (l+r)/2, r);
+            T c1 = _query(a, b, 2*k+1, l, (l+r)/2);
+            T c2 = _query(a, b, 2*k+2, (l+r)/2, r);
             return operation(c1, c2);
         }
     }

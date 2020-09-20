@@ -73,7 +73,7 @@ public:
 
 BIT::BIT(int _n) {
     n = _n;
-    a.assign(n, 0ll);
+    a.assign(n+1, 0ll);
 }
 
 void BIT::add(int idx, ll x) {
@@ -103,6 +103,16 @@ BIT::~BIT() {
 
 
 int main(int argc, char const *argv[]) {
-    
+    int n,q; cin>>n>>q;
+    BIT ft = BIT(n);
+    while (q--) {
+        ll t,x,y; cin>>t>>x>>y;
+        if (t) {
+            cout << ft.sum(x,y) << '\n';
+        }
+        else {
+            ft.add(x, y);
+        }
+    }
     return 0;
 }
