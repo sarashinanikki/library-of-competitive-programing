@@ -7,10 +7,10 @@ if not len(args) == 4:
     print("コンテスト名と問題数とURlを入力してください")
     sys.exit(0)
 
-path = os.getcwd();
+path = os.getcwd()
 path = path + "/" + args[1]
 
-template_path = "/home/sarashin/Documents/c++/AtCoder/template"
+template_path = "/home/sarashin/contest/library-of-competitive-programing/script/template"
 
 prob_num = int(args[2])
 url = args[3]

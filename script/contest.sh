@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python ~/Documents/life_shells/contest.py $1 $2 $3
+python /home/sarashin/contest/library-of-competitive-programing/script/_contest.py $1 $2 $3
 code $1
 letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 n=$(($2-1))

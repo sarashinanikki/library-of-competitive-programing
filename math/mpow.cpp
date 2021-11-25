@@ -13,9 +13,9 @@ using namespace std;
 // x^n(mod M)
 ll mpow(ll x, ll n) {
     ll ans = 1ll;
-    while(n != 0){
-        if (n&1) ans = ans*x%MOD;
-        x = x*x%MOD;
+    while(n != 0) {
+        if (n&1) ans = ((ans%MOD)*(x%MOD))%MOD;
+        x = ((x%MOD)*(x%MOD))%MOD;
         n = n >> 1;
     }
     return ans;
